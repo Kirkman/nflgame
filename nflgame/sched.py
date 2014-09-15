@@ -31,7 +31,10 @@ def _create_schedule(jsonf=None):
         d[gsis_id] = info
     last_updated = datetime.datetime.utcfromtimestamp(data.get('time', 0))
 
-    if (datetime.datetime.utcnow() - last_updated).total_seconds() >= day:
+	td = datetime.datetime.utcnow() - last_updated 
+	duration = td.seconds + (td.days * 24 * 3600)
+
+    if duration >= day:
         # Only try to update if we can write to the schedule file.
         if os.access(jsonf, os.W_OK):
             import nflgame.live
